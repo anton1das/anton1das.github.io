@@ -6,13 +6,21 @@
 <body>
     <div id="app">
         hello, world, {{a}}, {{b}}
+        <table>
+            <tr v-for="board in boards">
+                <td>{{board.dir}}</td>
+                <td>{{board.name}}</td>
+                <td>{{board.isNsfw}}</td>
+                <td>{{board.isBlockRu}}</td>
+            </tr>
+        </table>
     </div>
 </body>
 <script src="https://unpkg.com/vue"></script>
 <script type="text/javascript">
     app = new Vue({
         el: '#app',
-        data: { a: 1, b: 2 },
+        data: { a: 1, b: 2, boards: [] },
         mounted: function() {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'boards.json', false);
@@ -20,7 +28,7 @@
             if (xhr.status != 200) {
               alert( xhr.status + ': ' + xhr.statusText );
             } else {
-              alert('ok');
+              this.boards = xhr.responseText
             }
         }
     })
