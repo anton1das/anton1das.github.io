@@ -19,14 +19,17 @@
 <script src="https://unpkg.com/vue"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
+    var boards [];
+
     app = new Vue({
         el: '#app',
-        data: { a: 1, b: 2, boards: [] },
+        data: { a: 1, b: 2, boards: boards },
         mounted: function() {
             axios
             .get('boards.json')
             .then(function (response) {
-                this.boards = this.boards.concat(response.data)
+                console.log(this.boards);
+                boards = boards.concat(response.data)
             })
             .catch(function (error) {
                 console.log(error);
