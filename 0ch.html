@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang='ru'>
+<head>
+    <title>hello world</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="bootstrap/4.0.0-beta/css/bootstrap.min.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Всего досок: {{boards.length}}</h1>
+        <table class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>Ссылки (клирнет/тор)</th>
+                    <th>Название</th>
+                    <th>Теги</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="board in boards">
+                    <td>
+                        <a
+                            rel="nofollow noopener"
+                            target="_blank"
+                            :href="base + board.dir">
+                            {{board.dir}}
+                        </a>
+                        <a
+                            rel="nofollow noopener"
+                            target="_blank"
+                            :href="tor + board.dir">
+                            <img src="logo-tor.png" alt="Тор">
+                        </a>
+                    </td>
+                    <td>{{board.name}}</td>
+                    <td>
+                        <input
+                            class="form-control"
+                            v-model="board.tags"
+                        >
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script src="vue.js"></script>
+<script src="axios.min.js"></script>
+<script type="text/javascript">
+    var boards = [];
+
+    app = new Vue({
+        el: '#app',
+        data: {
+            base:   'https://0chan.hk/',
+            tor:    'http://nullchan7msxi257.onion/',
+            boards: boards
+        },
+        mounted: function() {
+            axios
+            .get('https://0chan.hk/api/board/list')
+            .then(function (response) {
+                boards.push.apply(boards, response.data.boards)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+        }
+    })
+</script>
+</html>
